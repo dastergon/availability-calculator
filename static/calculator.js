@@ -35,8 +35,8 @@ function availabilityCalculator() {
     var currentLevel = percentage.value;
     var output;
 
-    if (isNaN(currentLevel) || currentLevel < 1 || currentLevel > 100) {
-        output = "<em>Input not valid. Please input a number between 1 and 100.</em>";
+    if (isNaN(currentLevel) || currentLevel <= 0 || currentLevel > 100) {
+        output = "<em>Input not valid. Please input a number between 0 and 100.</em>";
     } else {
         output =
             "<table id='custom-table'>"
