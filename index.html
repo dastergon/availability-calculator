@@ -1,44 +1,190 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>Availability Calculator</title>
-    <meta name="description" content="">
-    <meta name="keywords" content="Availiability,Service Level Agreement,SLA,SLO,SLI,Site Reliability Engineering,SRE">
+    <meta name="description"
+        content="Calculate how much downtime should be permitted in your Service Level Agreement or Objective.">
+    <meta name="keywords"
+        content="Availiability,Service Level Agreement,Service Level Objective,SLA,SLO,SLI,Site Reliability Engineering,SRE,Cheatsheet">
     <meta name="author" content="Pavlos Ratis">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/styles.css">
     <script type="text/javascript" src="static/calculator.js"></script>
+
+    <link rel="canonical" href="https://dastergon.gr/availability-calculator">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+
 </head>
 
 <body>
-    <a href="https://github.com/dastergon/availability-calculator"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
-    <header class="major">
-        <h2>Availability Calculator</h2>
-        <p>Calculate how much downtime should be permitted in your Service Level Agreement or Objective.</p>
-        <blockquote cite="https://landing.google.com/sre/interview/ben-treynor.html"><p>"In general, for any software service or system you can think of, 100% is not the right reliability target because no user can tell the difference between a system being 100% available and, let's say, 99.999% available." - <a href="https://landing.google.com/sre/interview/ben-treynor.html">Ben Treynor</a></p></blockquote>
+    <a href="https://github.com/dastergon/availability-calculator" class="github-corner"
+        aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250"
+            style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+            <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+            <path
+                d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+                fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+            <path
+                d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+                fill="currentColor" class="octo-body"></path>
+        </svg></a>
+
+    <header class="bg-white black-80 tc pv4">
+        <h1 class="roboto i fw1 f1">Availability Calculator</h1>
+        <h2 class="f5 fw4">Calculate how much downtime should be permitted in your Service Level
+            Agreement or Objective.</h2>
+             <i><small>
+                <blockquote cite="https://landing.google.com/sre/interview/ben-treynor.html">
+                    <p>"In general, for any software service or system you can think of, 100% is not the right
+                        reliability
+                        target
+                        because no user can tell the difference between a system being 100% available and, let's say,
+                        99.999%
+                        available." - <a href="https://landing.google.com/sre/interview/ben-treynor.html">Ben
+                            Treynor</a>
+                    </p>
+                </blockquote>
+            </small></i>
     </header>
-    <h3>Availability Table (Cheat Sheet)</h3>
-    <table id="custom-table"><tbody><tr><th>Availability</th><th>Downtime per year</th><th>Downtime per quarter</th><th>Downtime per month</th><th>Downtime per week</th><th>Downtime per day</th><th>Downtime per hour</th></tr><tr><tr><td>90%</td><td>36.52 days</td><td>9.13 days</td><td>3.04 days</td><td>16.80 hours</td><td>2.40 hours</td><td>6.00 minutes</td></tr><tr><td>95%</td><td>18.26 days</td><td>4.57 days</td><td>1.52 days</td><td>8.40 hours</td><td>1.20 hours</td><td>3.00 minutes</td></tr><tr><td>99%</td><td>3.65 days</td><td>21.91 hours</td><td>7.30 hours</td><td>1.68 hours</td><td>14.40 minutes</td><td>36.00 seconds</td></tr><tr><td>99.5%</td><td>1.83 days</td><td>10.96 hours</td><td>3.65 hours</td><td>50.40 minutes</td><td>7.20 minutes</td><td>18.00 seconds</td></tr><tr><td>99.9%</td><td>8.77 hours</td><td>2.19 hours</td><td>43.83 minutes</td><td>10.08 minutes</td><td>1.44 minutes</td><td>3.60 seconds</td></tr><tr><td>99.95%</td><td>4.38 hours</td><td>1.10 hours</td><td>21.91 minutes</td><td>5.04 minutes</td><td>43.20 seconds</td><td>1.80 seconds</td></tr><tr><td>99.99%</td><td>52.59 minutes</td><td>13.15 minutes</td><td>4.38 minutes</td><td>1.01 minutes</td><td>8.64 seconds</td><td>0.36 seconds</td></tr><tr><td>99.999%</td><td>5.26 minutes</td><td>1.31 minutes</td><td>26.30 seconds</td><td>6.05 seconds</td><td>0.86 seconds</td><td>0.04 seconds</td></tr></tbody></table>
-    <small>Calculations are based on the <a href="https://en.wikipedia.org/wiki/Year#Summary">average</a> Gregorian year: 365.2425 days</small><br/>
-    <p><label>Availability percentage (%) (e.g. 99.9):</label>
-    <input type="text" id="availability" value="99.9"/>
-    <button onclick="availabilityCalculator()">Calculate</button></p>
-    <p id="availability-table"></p>
-    <br />
-    <h3>Resources</h3>
-    <ul>
-        <li><a href="https://dastergon.gr/error-budget-calculator/">Error Budget Calculator</a></li>
-        <li><a href="https://github.com/dastergon/awesome-sre">Site Reliability Engineering Resources</a></li>
-        <li><a href="https://queue.acm.org/detail.cfm?id=3096459">The Calculus of Service Availability</a></li>
-        <li><a href="https://www.usenix.org/conference/srecon16/program/presentation/jones">Service Levels and Error Budgets</a></li>
-        <li><a href="https://www.wired.com/insights/2011/12/service-level-agreements-in-the-cloud-who-cares/">Service Level Agreements in the Cloud: Who cares?</a></li>
-    </ul>
-    <footer id="footer">
-        <a href="https://dastergon.gr">Pavlos Ratis</a> | 2018
+    <div class="pa4 tc">
+        <div class="overflow-auto">
+            <h3>Availability Cheat Sheet</h3>
+            <table class="f6 w-100 mw8 center" cellspacing="0">
+                <tbody class="lh-copy">
+                    <tr>
+                        <th class="fw6 bb b--black-20 pb3 pr3">Availability</th>
+                        <th class="fw6 bb b--black-20 pb3 pr3">Downtime per year</th>
+                        <th class="fw6 bb b--black-20 pb3 pr3">Downtime per quarter</th>
+                        <th class="fw6 bb b--black-20 pb3 pr3">Downtime per month</th>
+                        <th class="fw6 bb b--black-20 pb3 pr3">Downtime per week</th>
+                        <th class="fw6 bb b--black-20 pb3 pr3">Downtime per day</th>
+                        <th class="fw6 bb b--black-20 pb3 pr3">Downtime per hour</th>
+                    </tr>
+                    <tr>
+                    <tr>
+                        <td class="pr3 bb b--black-20">90%</td>
+                        <td class="pr3 bb b--black-20">36.52 days</td>
+                        <td class="pr3 bb b--black-20">9.13 days</td>
+                        <td class="pr3 bb b--black-20">3.04 days</td>
+                        <td class="pr3 bb b--black-20">16.80 hours</td>
+                        <td class="pr3 bb b--black-20">2.40 hours</td>
+                        <td class="pr3 bb b--black-20">6.00 minutes</td>
+                    </tr>
+                    <tr>
+                        <td class="pr3 bb b--black-20">95%</td>
+                        <td class="pr3 bb b--black-20">18.26 days</td>
+                        <td class="pr3 bb b--black-20">4.57 days</td>
+                        <td class="pr3 bb b--black-20">1.52 days</td>
+                        <td class="pr3 bb b--black-20">8.40 hours</td>
+                        <td class="pr3 bb b--black-20">1.20 hours</td>
+                        <td class="pr3 bb b--black-20">3.00 minutes</td>
+                    </tr>
+                    <tr>
+                        <td class="pr3 bb b--black-20">99%</td>
+                        <td class="pr3 bb b--black-20">3.65 days</td>
+                        <td class="pr3 bb b--black-20">21.91 hours</td>
+                        <td class="pr3 bb b--black-20">7.30 hours</td>
+                        <td class="pr3 bb b--black-20">1.68 hours</td>
+                        <td class="pr3 bb b--black-20">14.40 minutes</td>
+                        <td class="pr3 bb b--black-20">36.00 seconds</td>
+                    </tr>
+                    <tr>
+                        <td class="pr3 bb b--black-20">99.5%</td>
+                        <td class="pr3 bb b--black-20">1.83 days</td>
+                        <td class="pr3 bb b--black-20">10.96 hours</td>
+                        <td class="pr3 bb b--black-20">3.65 hours</td>
+                        <td class="pr3 bb b--black-20">50.40 minutes</td>
+                        <td class="pr3 bb b--black-20">7.20 minutes</td>
+                        <td class="pr3 bb b--black-20">18.00 seconds</td>
+                    </tr>
+                    <tr>
+                        <td class="pr3 bb b--black-20">99.9%</td>
+                        <td class="pr3 bb b--black-20">8.77 hours</td>
+                        <td class="pr3 bb b--black-20">2.19 hours</td>
+                        <td class="pr3 bb b--black-20">43.83 minutes</td>
+                        <td class="pr3 bb b--black-20">10.08 minutes</td>
+                        <td class="pr3 bb b--black-20">1.44 minutes</td>
+                        <td class="pr3 bb b--black-20">3.60 seconds</td>
+                    </tr>
+                    <tr>
+                        <td class="pr3 bb b--black-20">99.95%</td>
+                        <td class="pr3 bb b--black-20">4.38 hours</td>
+                        <td class="pr3 bb b--black-20">1.10 hours</td>
+                        <td class="pr3 bb b--black-20">21.91 minutes</td>
+                        <td class="pr3 bb b--black-20">5.04 minutes</td>
+                        <td class="pr3 bb b--black-20">43.20 seconds</td>
+                        <td class="pr3 bb b--black-20">1.80 seconds</td>
+                    </tr>
+                    <tr>
+                        <td class="pr3 bb b--black-20">99.99%</td>
+                        <td class="pr3 bb b--black-20">52.59 minutes</td>
+                        <td class="pr3 bb b--black-20">13.15 minutes</td>
+                        <td class="pr3 bb b--black-20">4.38 minutes</td>
+                        <td class="pr3 bb b--black-20">1.01 minutes</td>
+                        <td class="pr3 bb b--black-20">8.64 seconds</td>
+                        <td class="pr3 bb b--black-20">0.36 seconds</td>
+                    </tr>
+                    <tr>
+                        <td class="pr3 bb b--black-20">99.999%</td>
+                        <td class="pr3 bb b--black-20">5.26 minutes</td>
+                        <td class="pr3 bb b--black-20">1.31 minutes</td>
+                        <td class="pr3 bb b--black-20">26.30 seconds</td>
+                        <td class="pr3 bb b--black-20">6.05 seconds</td>
+                        <td class="pr3 bb b--black-20">0.86 seconds</td>
+                        <td class="pr3 bb b--black-20">0.04 seconds</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <small>Calculations are based on the
+            <a href="https://en.wikipedia.org/wiki/Year#Summary">average</a>
+            Gregorian year: 365.2425 days</small><br />
+    </div>
+
+    <div class="pa4-l">
+        <div class="bg-light-blue mw7 center pa4 br2-ns ba b--black-10">
+            <fieldset class="cf bn ma0 pa0">
+                <legend class="pa0 f5 f4-ns black-80">Availability percentage (%)</legend>
+                <div class="cf">
+                    <label class="clip" for="availaibility">Availability</label>
+                    <input
+                        class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-100 w-75-m w-80-l br2-ns br--left-ns"
+                        placeholder="99.9" type="text" name="availability" value="" id="availability" />
+                    <button onclick="availabilityCalculator()"
+                        class="f6 f5-l button-reset fl pv3 tc bn bg-animate hover-bg-black white pointer w-100 w-25-m w-20-l br2-ns br--right-ns"
+                        type="submit" value="Calculate">Calculate</button>
+                </div>
+            </fieldset>
+        </div>
+        <p class="pa4 overflow-auto tc" id="availability-table"></p>
+    </div>
+
+    <div class="pa5 tc">
+        <h3>Learn more</h3>
+        <ul class="list pl0 measure center">
+            <li class="lh-copy pv3  bl-0 bt-0 br-0 b--dotted b--black-30"><a
+                    href="https://github.com/dastergon/awesome-sre">Site Reliability Engineering Resources</a></li>
+            <li class="lh-copy pv3 bl-0 bt-0 br-0 b--dotted b--black-30"><a
+                    href="https://queue.acm.org/detail.cfm?id=3096459">The Calculus of Service Availability</a></li>
+            <li class="lh-copy pv3 bl-0 bt-0 br-0 b--dotted b--black-30"><a
+                    href="https://www.usenix.org/conference/srecon16/program/presentation/jones">
+                    Service Levels and Error Budgets</a></li>
+        </ul>
+    </div>
+
+    <footer class="pv4 ph3 ph5-m ph6-l mid-gray tc">
+        <small class="f6 db">
+            <a class="link" href="https://github.com/dastergon">Pavlos Ratis</a> | 2020
+        </small>
     </footer>
 </body>
-</html>
 
+</html>
